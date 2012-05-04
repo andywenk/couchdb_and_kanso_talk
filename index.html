@@ -80,74 +80,151 @@
         </ul>
       </article>
 
-      <article class='smaller'>
+      <article class="citation">
         <h3>
-          Simple slide with header and text (small font)
+          What is CouchDB - philosophically?
         </h3>
-
-      </article>
-
-      <article>
-        <h3>
-          Slide with bullet points and a longer title, just because we
-          can make it longer
-        </h3>
-        <ul>
-          <li>
-            Use this template to create your presentation
-          </li>
-          <li>
-            Use the provided color palette, box and arrow graphics, and
-            chart styles
-          </li>
-          <li>
-            Instructions are provided to assist you in using this
-            presentation template effectively
-          </li>
-          <li>
-            At all times strive to maintain Google's corporate look and feel
-          </li>
-        </ul>
-      </article>
-
-      <article>
-        <h3>
-          Slide with bullet points that builds
-        </h3>
-        <ul class="build">
-          <li>
-            This is an example of a list
-          </li>
-          <li>
-            The list items fade in
-          </li>
-          <li>
-            Last one!
-          </li>
-        </ul>
-
-        <div class="build">
-          <p>Any element with child nodes can build.</p>
-          <p>It doesn't have to be a list.</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <div>
+          <span class="red">
+            CouchDB is built <strong><i>of</i></strong> the Web
+          </span>
+        </div>
+        <div class="citation_description">
+          - commonly used phrase
+        </div>
+        <p>&nbsp;</p>
+        <div>
+          <span class="red">
+            Relational databases have been very successful in the past, 
+            and are likely to remain so, but <strong><i>in a certain sub-set of 
+            usage scenarios</i></strong>, non-relational systems are starting to take their place.
+          </span>
+        </div>
+        <div class="citation_description">
+          - Michael Lenahan
         </div>
       </article>
 
-      <article class='smaller'>
+      <article>
         <h3>
-          Slide with bullet points (small font)
+          What is CouchDB - technically?
         </h3>
         <ul>
-          <li>
-            Use this template to create your presentation
-          <li>
-            Use the provided color palette, box and arrow graphics, and
-            chart styles
-          <li>
-            Instructions are provided to assist you in using this
-            presentation template effectively
-          <li>
-            At all times strive to maintain Google's corporate look and feel
+          <li>written in Erlang</li>
+          <li>document based database</li>
+          <li>schemaless</li>
+          <li>JSON format for data (besides attachments)</li>
+          <li>B+tree index for data indexing</li>
+          <li>RESTful JSON API: GET, POST, PUT, DELETE, HEAD, COPY</li>
+          <li>replication with bi-directional conflict detection and resolution</li>
+          <li>data integrity with MVCC and ACID</li>
+          <li>BLOBS saved as attachment directly in document</li>
+          <li>OpenSource project with Apache2 licence</li>
         </ul>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          What is CouchDB - MVCC and ACID
+        </h3>
+        <p>MVCC - <b>M</b>ulti <b>V</b>ersion <b>C</b>oncurrency <b>C</b>ontrol</p>
+        <br />
+        <div style="text-align: center">
+          <img src="images/mvcc.png" />
+        </div>
+        <p>ACID</p>
+        <ul>
+          <li>Atomicity - all or nothing during parallel changes<li>
+          <li>Consitency - database is always consistent</li>
+          <li>Isolation - no impact between write or delete operations</li>
+          <li>Durability - changes in the DB are permanent</li>
+        </ul> 
+      </article>
+
+      <article>
+        <h3>
+          Installing CouchDB
+        </h3>
+        <p>Mac OS X - homebrew</p>
+        <section>
+          <pre>
+[andwen]: brew update
+[andwen]: brew upgrade
+[andwen]: brew install couchdb
+          </pre>
+        </section>
+        Trouble (e.g. because 1.1.1 is installed)?
+        <section>
+          <pre>
+[andwen]: brew unlink couchdb
+[andwen]: brew install couchdb
+[andwen]: couchdb -V
+  couchdb - Apache CouchDB 1.2.0
+          </pre>
+        </section>
+      </article>
+
+      <article>
+        <h3>
+          Installing CouchDB
+        </h3>
+        <p>Mac OS X - MacPorts (rethink!)</p>
+        <section>
+          <pre>
+[andwen]: sudo port install couchdb
+[andwen]: sudo port upgrade couchdb
+          </pre>
+        </section>
+        <p>Linux</p>
+        <a target="_blank" href="http://wiki.apache.org/couchdb/Installing_on_Ubuntu?action=show&redirect=InstallingOnUbuntu">
+          Instructions for Ubuntu
+        </a>
+        <br />
+        <a target="_blank" href="http://wiki.apache.org/couchdb/Installing_on_linux">
+          Instructions for all Linux OS
+        </a>
+        <p>Windows</p>
+        <a target="_blank" href="http://wiki.apache.org/couchdb/Installing_on_Windows?action=show&redirect=InstallingOnWindows">
+          Instructions
+        </a>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Querying CouchDB with http - db level
+        </h3>
+        <p>Hello CouchDB:</p>
+        <section>
+          <pre>
+[andwen]: curl -X GET http://localhost:5984 
+{"couchdb":"Welcome","version":"1.2.0"}
+          </pre>
+        </section>
+        <p>All DB's</p>
+        <section>
+          <pre>
+[andwen]: curl -X GET http://localhost:5984/_all_dbs
+["_replicator","_users","kassenbuch","multi-ids"]
+          </pre>
+        </section>
+        <p>Create a DB</p>
+        <section>
+          <pre>
+[andwen]: curl -X PUT http://localhost:5984/jug
+{"ok":true}
+[andwen]: curl -X GET http://localhost:5984/_all_dbs
+["_replicator","_users","jug","kassenbuch","multi-ids"]
+          </pre>
+        </section>
+      </article>
+
+      <article class='smaller'>
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+       
       </article>
 
       <article>
