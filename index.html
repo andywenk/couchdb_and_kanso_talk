@@ -81,53 +81,49 @@
       </article>
 
       <article class="citation">
-        <h3>
-          What is CouchDB - philosophically?
-        </h3>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <div>
+        <q>
           <span class="red">
             CouchDB is built <strong><i>of</i></strong> the Web
           </span>
+        </q>
+        <div class="author">
+          commonly used phrase
         </div>
-        <div class="citation_description">
-          - commonly used phrase
-        </div>
-        <p>&nbsp;</p>
-        <div>
+      </article>
+    
+      <article class="smaller">
+        <q>
           <span class="red">
             Relational databases have been very successful in the past, 
             and are likely to remain so, but <strong><i>in a certain sub-set of 
             usage scenarios</i></strong>, non-relational systems are starting to take their place.
           </span>
-        </div>
-        <div class="citation_description">
-          - Michael Lenahan
+        </q>
+        <div class="author">
+          Michael Lenahan
         </div>
       </article>
 
       <article>
         <h3>
-          What is CouchDB - technically?
+          What is CouchDB? - technically?
         </h3>
         <ul>
-          <li>written in Erlang</li>
-          <li>document based database</li>
-          <li>schemaless</li>
-          <li>JSON format for data (besides attachments)</li>
+          <li>schemaless, document based database</li>
+          <li>JSON format for data (besides attachments, RFC 4627)</li>
+          <li>RESTful HTTP API: GET, POST, PUT, DELETE, HEAD, COPY (RFC 2616)</li>
           <li>B+tree index for data indexing</li>
-          <li>RESTful JSON API: GET, POST, PUT, DELETE, HEAD, COPY</li>
           <li>replication with bi-directional conflict detection and resolution</li>
           <li>data integrity with MVCC and ACID</li>
           <li>BLOBS saved as attachment directly in document</li>
+          <li>written in Erlang</li>
           <li>OpenSource project with Apache2 licence</li>
         </ul>
       </article>
 
       <article class="smaller">
         <h3>
-          What is CouchDB - MVCC and ACID
+          What is CouchDB? MVCC and ACID
         </h3>
         <p>MVCC - <b>M</b>ulti <b>V</b>ersion <b>C</b>oncurrency <b>C</b>ontrol</p>
         <br />
@@ -145,22 +141,69 @@
 
       <article>
         <h3>
+          What is CouchDB? MapReduce
+        </h3>
+        <p>Invented by Google</p>
+        <ul>
+          <li>parallel and concurrent calculation of very big data sets<li>
+          <li>in CouchDB used to create Views</li> 
+          <li>Map calculates each document</li>
+          <li>Reduce calculates a summation out of the Map results</li>
+        </ul>
+        <br />
+        <a href="http://en.wikipedia.org/wiki/MapReduce">Wiki: MapReduce</a><br />
+        <a href="http://userpages.uni-koblenz.de/~laemmel/MapReduce/paper.pdf">Google’s MapReduce Programming Model — Revisited</a>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          What is CouchDB? CAP
+        </h3>
+        <p>CAP Theorem by Dr. Eric Brewer - approved by Seth Gilbert and Nancy Lynch</p>
+        <ul>
+          <li><b>C</b>onsistency, <b>A</b>vailability, <b>P</b>artition Tolerance<li>
+          <li>only two properties can be guaranteed in distributed systems</li> 
+        </ul>
+        <p>In CouchDB when used as distributed system: AP</p>
+        <ul>
+          <li><b>C</b>: eventual consistent - editing the same doc on two nodes will eventually be consistent (after replication)</li>
+          <li><b>A</b>: possible with master-slave replication</li>
+          <li><b>P</b>: not relevant for CouchDB when used as single node (no cluster facilities available - but projects like BigCouch, CouchDB-Lounge)</li>
+        </ul>
+        <br />
+        <a href="http://www.eecs.berkeley.edu/~brewer/cs262b-2004/PODC-keynote.pdf">Towards Robust Distributed Systems</a><br />
+        <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.20.1495&rep=rep1&type=pdf">Brewer’s Conjecture and the Feasibility of Consistent, Available, Partition-tolerant Web Services</a><br />
+        <a href="http://bigcouch.cloudant.com/">Cloudant's BigCouch</a><br />
+        <a href="http://tilgovi.github.com/couchdb-lounge/">CouchDB Lounge</a>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          What is CouchDB? CAP
+        </h3>
+        <br />
+        <div style="text-align: center">
+          <img src="images/noSQL_comparison.png" />
+        </div>
+      </article>
+      <article>
+        <h3>
           Installing CouchDB
         </h3>
         <p>Mac OS X - homebrew</p>
         <section>
           <pre>
-[andwen]: brew update
-[andwen]: brew upgrade
-[andwen]: brew install couchdb
+brew update
+brew upgrade
+brew install couchdb
           </pre>
         </section>
         Trouble (e.g. because 1.1.1 is installed)?
         <section>
           <pre>
-[andwen]: brew unlink couchdb
-[andwen]: brew install couchdb
-[andwen]: couchdb -V
+brew unlink couchdb
+brew install couchdb
+couchdb -V
   couchdb - Apache CouchDB 1.2.0
           </pre>
         </section>
@@ -173,8 +216,8 @@
         <p>Mac OS X - MacPorts (rethink!)</p>
         <section>
           <pre>
-[andwen]: sudo port install couchdb
-[andwen]: sudo port upgrade couchdb
+sudo port install couchdb
+sudo port upgrade couchdb
           </pre>
         </section>
         <p>Linux</p>
@@ -198,24 +241,176 @@
         <p>Hello CouchDB:</p>
         <section>
           <pre>
-[andwen]: curl -X GET http://localhost:5984 
+curl -X GET http://localhost:5984 
 {"couchdb":"Welcome","version":"1.2.0"}
           </pre>
         </section>
         <p>All DB's</p>
         <section>
           <pre>
-[andwen]: curl -X GET http://localhost:5984/_all_dbs
+curl -X GET http://localhost:5984/_all_dbs
 ["_replicator","_users","kassenbuch","multi-ids"]
           </pre>
         </section>
         <p>Create a DB</p>
         <section>
           <pre>
-[andwen]: curl -X PUT http://localhost:5984/jug
+curl -X PUT http://localhost:5984/jug
 {"ok":true}
-[andwen]: curl -X GET http://localhost:5984/_all_dbs
+curl -X GET http://localhost:5984/_all_dbs
 ["_replicator","_users","jug","kassenbuch","multi-ids"]
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+      
+        <p>Creating a document with POST</p>
+        <section>
+          <pre>
+curl -X POST http://localhost:5984/jug/ -H "Content-Type: application/json" -d '{}'
+{"ok":true,<br />&nbsp;"id":"03cab906fa68e852be833ebb17001cd4",<br />&nbsp;"rev":"1-967a00dff5e02add41819138abb3284d"}
+          </pre>
+        </section>
+        <p>id</p>
+        <div class="text indent10">
+          uuid #provided by CouchDB
+        </div>
+        <p>rev</p>
+        <div class="text indent10">
+          (revision number)-(md5 hash of the document content)
+        </div>
+      </article>
+
+      <article class='smaller'>
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+        <p>All documents</p>
+        <section>
+          <pre>
+curl -X GET http://localhost:5984/jug/_all_docs
+{"total_rows":0,"offset":0,"rows":[]}
+          </pre>
+        </section>
+
+        <p>Creating a document with PUT with usage of a uuid ...</p>
+        <section>
+          <pre>
+curl -X GET http://localhost:5984/_uuids
+{"uuids":["03cab906fa68e852be833ebb17000ff8"]}
+curl -X PUT http://localhost:5984/jug/03cab906fa68e852be833ebb17000ff8 -d '{}'
+{"ok":true,<br />&nbsp;"id":"03cab906fa68e852be833ebb17000ff8", <br />&nbsp;"rev":"1-967a00dff5e02add41819138abb3284d"}
+          </pre>
+        </section>
+        <p>... or with a own id</p>
+        <section>
+          <pre>
+curl -X PUT http://localhost:5984/jug/first_doc -d '{}'
+{"ok":true,"id":"first_doc","rev":"1-967a00dff5e02add41819138abb3284d"}
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+      
+        <p>Updating a document with PUT</p>
+        <section>
+          <pre>
+curl -X GET http://localhost:5984/jug/first_doc 
+&nbsp;-d '{"_rev":"1-967a00dff5e02add41819138abb3284d",
+&nbsp;"some-content":"Hey how are you dude?"}'
+{"ok":true,"id":"first_doc","rev":"2-65ef50076c98c6817fb3ca97c87d8b66"}
+          </pre>
+        </section>
+        <p>possible to use the if-match header</p>
+        <section>
+          <pre>
+-H "if-match:1-967a00dff5e02add41819138abb3284d"
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+      
+        <p>Deleting a document with GET</p>
+        <section>
+          <pre>
+curl -X DELETE http://localhost:5984/jug/first_doc?rev=3-73846195cbf86c1a3b94b6c04b6bebc0
+{"ok":true,"id":"first_doc","rev":"4-9853b2dfc30eb372590c60a339124cfd"}
+          </pre>
+        </section>
+        <p>possible to use the if-match header</p>
+        <section>
+          <pre>
+-H "if-match:3-73846195cbf86c1a3b94b6c04b6bebc0"
+          </pre>
+        </section>
+        <p>document is not deleted physically but marked with --deleted: true</p>
+        <section>
+          <pre>
+curl -X GET http://localhost:5984/jug/first_doc
+{"error":"not_found","reason":"deleted"}
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+      
+        <p>Add attachment to document</p>
+        <section>
+          <pre>
+curl -X PUT http://localhost:5984/jug/second_doc -d '{}'
+{"ok":true,"id":"second_doc","rev":"1-967a00dff5e02add41819138abb3284d"}
+
+curl -X PUT http://localhost:5984/jug/second_doc/mvcc.png?rev=1-967a00dff5e02add41819138abb3284d 
+ --data-binary @mvcc.png 
+ -H "Content-Type: image/png"
+{"ok":true,"id":"second_doc","rev":"2-f488b45f8c02c4da096d23739051d428"}
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+        <p>Receive attachment from document</p>
+        <section>
+          <pre>
+curl -i -X GET http://localhost:5984/jug/second_doc/
+HTTP/1.1 200 OK
+Server: CouchDB/1.2.0 (Erlang OTP/R15B01)
+ETag: "2-f488b45f8c02c4da096d23739051d428"
+Date: Sun, 06 May 2012 21:03:26 GMT
+Content-Type: text/plain; charset=utf-8
+Content-Length: 200
+Cache-Control: must-revalidate
+
+{"_id":"second_doc",
+ "_rev":"2-f488b45f8c02c4da096d23739051d428",
+"_attachments":
+ {"mvcc.png":
+  {"content_type":"image/png",
+   "revpos":5,
+   "digest":"md5-RJsN7gjQubg+iqLe96+SxQ==",
+   "length":12753,
+   "stub":true
+  }
+ }
+}
           </pre>
         </section>
       </article>
@@ -224,57 +419,52 @@
         <h3>
           Querying CouchDB with http - document level
         </h3>
-       
+        
+        <p>Copy the documents content into another one</p>
+        <section>
+          <pre>
+curl -i -X PUT http://localhost:5984/jug/third_doc -d '{"first_name": "Andy"}'
+{"ok":true,"id":"third_doc","rev":"1-16e80e6f62d44c4569d13e2e7a05e373"}
+
+curl -X PUT http://localhost:5984/jug/fourth_doc -d '{"last_name": "Wenk"}'
+{"ok":true,"id":"fourth_doc","rev":"1-18236196ad905238b2b24d33a12eb043"}
+
+curl -X COPY http://localhost:5984/jug/third_doc 
+-H 'destination:fourth_doc?rev=1-18236196ad905238b2b24d33a12eb043'
+{"ok":true,"id":"fourth_doc","rev":"2-21431c6bda57d30383987ae2510c309e"}
+
+curl -X COPY http://localhost:5984/jug/third_doc -H 'destination:fifth_doc'
+{"ok":true,"id":"fifth_doc","rev":"1-993591377f6cb544ddea933a6ed28e38"}
+          </pre>
+        </section>
+        <p>Copying third_doc to fourth_doc is overwriting not merging!</p>
+        <p>Copying third_doc to fifth_doc will create the fith_doc newly</p>
+      </article>
+      
+      <article>
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+        <p>Check also:</p>
+        <ul>
+          <li>_bulk_docs</li>
+          <li>_purge</li>
+          <li><a href="https://github.com/andywenk/couchdb-cheat-sheet">couchdb-cheat-sheet</a></li>
+          <li><a href="http://wiki.apache.org/couchdb/Reference">http://wiki.apache.org/couchdb/Reference</a></li>
+        </ul>
       </article>
 
       <article>
         <h3>
-          Slide with a table
+          Futon
         </h3>
-        
-        <table>
-          <tr>
-            <th>
-              Name
-            <th>
-              Occupation
-          <tr>
-            <td>
-              Luke Mahé
-            <td>
-              V.P. of Keepin’ It Real
-          <tr>
-            <td>
-              Marcin Wichary
-            <td>
-              The Michael Bay of Doodles
-        </table>
+        <p>Webinterface for CouchDB</p>
+        <p>&nbsp;</p>
+        <div style="text-align: center">
+          <img src="images/futon.png" width="700" />
+        </div>
       </article>
-      
-      <article class='smaller'>
-        <h3>
-          Slide with a table (smaller text)
-        </h3>
-        
-        <table>
-          <tr>
-            <th>
-              Name
-            <th>
-              Occupation
-          <tr>
-            <td>
-              Luke Mahé
-            <td>
-              V.P. of Keepin’ It Real
-          <tr>
-            <td>
-              Marcin Wichary
-            <td>
-              The Michael Bay of Doodles
-        </table>
-      </article>
-      
+
       <article>
         <h3>
           Styles

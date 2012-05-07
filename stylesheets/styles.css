@@ -4,3 +4,6 @@ article.biglogo p{margin-top: 100px;}
 .link{color: #bb0000;}
 .citation div span{font-size: 30px;}
 .citation_description{text-align:right;font-size:15px;margin-bottom: 50px;}
+.smaller a {font-size:16px;}
+.text{font-size: 18px;}
+.indent10{margin-left: 10px;}
