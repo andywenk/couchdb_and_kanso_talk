@@ -27,14 +27,15 @@
 
       <article>
         <h2>
-          / Introduction to Apache CouchDB
+          part I:&nbsp;&nbsp;&nbsp;&nbsp;Introduction to CouchDB
           <br>
-          / A CouchApp with Kanso
+          part II:&nbsp;&nbsp; A CouchApp with Kanso
+          </p>
         </h2>
         <p>
           Andy Wenk
           <br>
-          May 05, 2012 - JUG-OSTFALEN
+          May 10, 2012 - JUG-OSTFALEN
         </p>
       </article>
       
@@ -70,6 +71,7 @@
           What you will hear ...
         </h3>
         <ul>
+          <li>NoSQL database overview</li>
           <li>What is CouchDB?</li>
           <li>Installing CouchDB</li>
           <li>Querying CouchDB with http</li>
@@ -102,6 +104,200 @@
         <div class="author">
           Michael Lenahan
         </div>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          NoSQL database overview (incomplete, steadily growing)
+        </h3>
+        <ul>
+          <li><b>Wide Column Store / Column Families:</b> Big Table, Hadoop, HBase, Cassandra, Hypertable, Cloudata, Cloudera</li>
+          <li><b>Document Store:</b> <b class="red">CouchDB</b>, MongoDB, Terrastore, ThruDB, RavenDB, Riak, SisoDB, Amazon SimpleDB,</li>
+          <li><b>Key Value / Tuple Store:</b> Azure Table Storage, Couchbase (Membase / MemcacheDB), Redis, Chordless, GenieDB, Scalaris, Keyspace, Berkeley DB, Faircom C- Tree, HamsterDB, Pincaster, RaptorDB</li>
+          <li><b>Eventually Consistent Key Value Store:</b> Amazon Dynamo, Voldemort, Dynomite</li>
+          <li><b>Graph Databases:</b> OrientDB, Neo4J, FlockDB (twitter), Inifinite Graph, Sones, InfoGrid, HyperGraphDB, Trinity, AllegroGraph, Bigdata, DEX</li>
+          <li><b>Object Databases:</b> db4o, Versant, Objectivity, Starcounter, Perst, ZODB (Zope), NEO (Zope), PicoLisp</li>
+          <li><b>Grid & Cloud Database Solutions:</b> GigaSpaces, Hazelcast, Queplix, XML Databases, Mark Logic server, EMC Documentum xDB, Tamino, Xindice</li>
+          <li><b>Multivalue Databases:</b> U2, OpenInsight, OpenQM
+        </ul>
+        <p>see also: <a href="http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis/">http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis/</a></p> 
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Cassandra (<a href="http://cassandra.apache.org/">http://cassandra.apache.org/</a>)
+        </h3>
+        <ul>
+          <li>written in Java by Facebook (powers their inbox search feature)</li>
+          <li>structured key-value store</li>
+          <li>keys map to multiple values, stored in column families</li>
+          <li>diff. keys can have diff. columns</li>
+          <li>AP - eventual consistency</li>
+          <li>Elasticity</li>
+          <li>fault-tolerant</li>
+          <li>Tunable consistency</li>
+          <li>RowMutations instead of update-in-place</li>
+        </ul>
+        <p>
+          <b>Usage:</b>
+        </p>
+        <ul>
+          <li>write more than read (logging)</li>
+          <li>every component of system must be Java</li>
+          <li>Banking, financial industry</li>
+          <li>writes are faster than reads, real time data analysis</li>
+        </ul>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          mongoDB (<a href="http://www.mongodb.org/">http://www.mongodb.org/</a>)
+        </h3>
+        <ul>
+          <li>written in C++</li>
+          <li>Document store (manages collections of JSON-like documents - called BSON)</li>
+          <li>specific drivers are needed to access DB</li>
+          <li>designed with performance in mind</li>
+          <li>cursors for query results and can return specific fields instead of whole document</li>
+          <li>JS expressions can be part of a query</li>
+          <li>Replication via master/slave setups</li>
+          <li>supports sharding</li>
+        </ul>
+        <p>
+          <b>Usage:</b>
+        </p>
+        <ul>
+          <li>dynamic queries, defined indexes, no map/reduce functions</li>
+          <li>good performance on big DB</li>
+          <li>data changes too much for CouchDB</li>
+          <li>RDBMS but without restrictive schema</li>
+        </ul>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          neo4J (<a href="http://neo4j.org/">http://neo4j.org/</a>)
+        </h3>
+        <ul>
+          <li>written in Java</li>
+          <li>graph database, embedded or standalone</li>
+          <li>fully transactional, supports ACID, transaction recovery, concurrency control</li>
+          <li>disk based, schema-less</li>
+          <li>access: REST JSON API, direct Java API</li>
+          <li>excells on highly connected data</li>
+          <li>focuses on a search-centric rather than compute-intensive method for data processing</li>
+          <li>richer data model than RDBMS</li>
+        </ul>
+        <p>
+          <b>Usage:</b>
+        </p>
+        <ul>
+          <li>graph-style data, Social relations</li>
+          <li>public transport links, road maps, network topologies</li>
+        </ul>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          riak (<a href="http://www.basho.com/Riak.html">http://www.basho.com/Riak.html</a>)
+        </h3>
+        <ul>
+          <li>written in Erlang, principles of Dynamo</li>
+          <li>core developer team comes from Akamai</li>
+          <li>schema-less document store</li>
+          <li>HTTP REST and drivers for accessing data</li>
+          <li>shard-partitioned storage</li>
+          <li>links from one entry to other DB entries</li>
+          <li>pluggable backend</li>
+          <li>convenient & flexible cluster system:<br />
+            <ul>
+              <li>configurable to be most reliable or very scalable by NRW values</li>
+              <li>consistent hashing is used to distribute data around the cluster</li>
+            </ul>
+          </li>
+        </ul>
+        <p>
+          <b>Usage:</b>
+        </p>
+        <ul>
+          <li>Factory control systems</li>
+          <li>when even seconds of downtime hurt</li>
+        </ul>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          redis (<a href="http://redis.io/">http://redis.io/</a>)
+        </h3>
+        <ul>
+          <li>written in C, sponsored by VMware</li>
+          <li>key-value store, not strings only</li>
+          <li>server side atomic operations</li>
+          <li>whole data is held in RAM, nonblocking IO</li>
+          <li>in-memory, persistent, journaled</li>
+          <li>persistence is offered in two ways</li>
+          <li>many language drivers available</li>
+          <li>supports pipelining to reduce round trip</li>
+          <li>replication tree via master-slave relation</li>
+          <li>extremely fast due in memory nature</li>
+        </ul>
+        <p>
+          <b>Usage:</b>
+        </p>
+        <ul>
+          <li>rapidly changing data, should fit mostly in memory
+          <li>Stock prices, Analytics, Real-time data collection, Real-time communication</li>
+        </ul>
+      </article>
+
+      <article>
+        <h3>
+          Overview
+        </h3>
+        <table>
+          <tr>
+            <td></td>
+            <td><b>Language</b></td>
+            <td><b>Access</b></td>
+            <td><b>designed for</b></td>
+          </tr>
+          <tr>
+            <td><b>CouchDB</b></td>
+            <td>Erlang</td>
+            <td>HTTP / REST</td>
+            <td>consistency, ease of use</td>
+          </tr>
+          <tr>
+            <td><b>Cassandra</b></td>
+            <td>Java</td>
+            <td>driver, thrift</td>
+            <td>Best of BigTable and Dynamo</td>
+          </tr>
+          <tr>
+            <td><b>MongoDB</b></td>
+            <td>C++</td>
+            <td>driver</td>
+            <td>good parts of SQL</td>
+          </tr>
+          <tr>
+            <td><b>Neo4J</b></td>
+            <td>Java</td>
+            <td>REST / embedded</td>
+            <td>relations, search</td>
+          </tr>
+          <tr>
+            <td><b>riak</b></td>
+            <td>Erlang</td>
+            <td>REST / driver</td>
+            <td>Fault tolerance, tunable</td>
+          </tr>
+          <tr>
+            <td><b>redis</b></td>
+            <td>C</td>
+            <td>driver / TCP</td>
+            <td>speed</td>
+          </tr>
+        </table>
       </article>
 
       <article>
@@ -143,16 +339,9 @@
         <h3>
           What is CouchDB? MapReduce
         </h3>
-        <p>Invented by Google</p>
-        <ul>
-          <li>parallel and concurrent calculation of very big data sets<li>
-          <li>in CouchDB used to create Views</li> 
-          <li>Map calculates each document</li>
-          <li>Reduce calculates a summation out of the Map results</li>
-        </ul>
-        <br />
-        <a href="http://en.wikipedia.org/wiki/MapReduce">Wiki: MapReduce</a><br />
-        <a href="http://userpages.uni-koblenz.de/~laemmel/MapReduce/paper.pdf">Google’s MapReduce Programming Model — Revisited</a>
+        <p>
+          ... later
+        </p>
       </article>
 
       <article class="smaller">
@@ -454,17 +643,159 @@ curl -X COPY http://localhost:5984/jug/third_doc -H 'destination:fifth_doc'
         </ul>
       </article>
 
-      <article>
-        <h3>
-          Futon
-        </h3>
-        <p>Webinterface for CouchDB</p>
-        <p>&nbsp;</p>
-        <div style="text-align: center">
-          <img src="images/futon.png" width="700" />
-        </div>
+      <article class='fill'>
+        <iframe src='http://localhost:5984/_utils'></iframe>
       </article>
 
+      <article>
+        <h3>
+          Retrieving data with Map/Reduce
+        </h3>
+        <p>Invented by Google</p>
+        <ul>
+          <li>parallel and concurrent calculation of very big data sets<li>
+          <li>in CouchDB used to create Views</li> 
+          <li>Map calculates each document</li>
+          <li>Reduce calculates a summation out of the Map results</li>
+        </ul>
+        <br />
+        <a href="http://en.wikipedia.org/wiki/MapReduce">Wiki: MapReduce</a><br />
+        <a href="http://userpages.uni-koblenz.de/~laemmel/MapReduce/paper.pdf">Google’s MapReduce Programming Model — Revisited</a>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Retrieving data with Map/Reduce
+        </h3>
+        <p>some documents with structure</p>
+        <section>
+          <pre>
+{
+   "_id": "f165fc62ed5d14ca84128de1d6034a36",
+   "_rev": "1-357fda3050771ca747b95c0108a21fe6",
+   "type": "document_store",
+   "name": "CouchDB"
+}
+          </pre>
+        </section>
+        <p>simplest possible view</p>
+        <section>
+          <pre>
+{
+   "_id": "_design/simple",
+   "_rev": "2-0404067f53ecc72bc660b8bed7576604",
+   "views": {
+       "all_database_types": {
+           "map": "function (doc) { emit(doc.type, doc.name); }"
+       }
+   }
+}
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Retrieving data with Map/Reduce
+        </h3>
+        <p>firing the view</p>
+        <section>
+          <pre>
+curl -X GET 'http://localhost:5984/map-reduce/_design/simple/ \
+  _view/all_database_types'
+{"total_rows":12,"offset":0,"rows":[
+{"id":"f165fc62ed5d14ca84128de1d6036c8c","key":"column_store","value":"BigTable"},
+{"id":"f165fc62ed5d14ca84128de1d60375a4","key":"column_store","value":"Hadoop"},
+{"id":"f165fc62ed5d14ca84128de1d6037f0e","key":"column_store","value":"Cassandra"},
+{"id":"f165fc62ed5d14ca84128de1d6038002","key":"column_store","value":"HBase"},
+{"id":"f165fc62ed5d14ca84128de1d6034a36","key":"document_store","value":"CouchDB"},
+{"id":"f165fc62ed5d14ca84128de1d6035544","key":"document_store","value":"MongoDB"},
+{"id":"f165fc62ed5d14ca84128de1d60358c0","key":"document_store","value":"Riak"},
+{"id":"f165fc62ed5d14ca84128de1d60367ac","key":"document_store","value":"Amazon SimpleDB"},
+{"id":"f165fc62ed5d14ca84128de1d60387fb","key":"key_value","value":"couchbase"},
+{"id":"f165fc62ed5d14ca84128de1d6038f3f","key":"key_value","value":"redis"},
+{"id":"f165fc62ed5d14ca84128de1d6039f11","key":"key_value","value":"berkley DB"},
+{"id":"f165fc62ed5d14ca84128de1d603a8b6","key":"key_value","value":"Raptor DB"}
+]}
+          </pre>
+        </section>
+        <p class="red">attention: start using single quotes for the URL - otherwise cURL will suck!</p>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Retrieving data with Map/Reduce
+        </h3>
+        <p>firing the view and receive only data for type=column_store</p>
+        <section>
+          <pre>
+curl -X GET 'http://localhost:5984/map-reduce/_design/simple/ \
+  _view/all_database_types?key="document_store"'
+{"total_rows":12,"offset":4,"rows":[
+{"id":"f165fc62ed5d14ca84128de1d6034a36","key":"document_store","value":"CouchDB"},
+{"id":"f165fc62ed5d14ca84128de1d6035544","key":"document_store","value":"MongoDB"},
+{"id":"f165fc62ed5d14ca84128de1d60358c0","key":"document_store","value":"Riak"},
+{"id":"f165fc62ed5d14ca84128de1d60367ac","key":"document_store","value":"Amazon SimpleDB"}
+]}
+          </pre>
+        </section>
+        <p>
+          See also: <a href="http://wiki.apache.org/couchdb/HTTP_view_API">http://wiki.apache.org/couchdb/HTTP_view_API</a>
+        </p>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Retrieving data with Map/Reduce
+        </h3>
+        <p>extending the view with a reduce function</p>
+        <section>
+          <pre>
+{
+   "_id": "_design/simple",
+   "_rev": "2-0404067f53ecc72bc660b8bed7576604",
+   "views": {
+       "all_database_types": {
+           "map": "function (doc) { emit(doc.type, doc.name); }"
+           "reduce": "_count"
+       }
+   }
+}
+          </pre>
+        </section>
+        <section>
+          <pre>
+curl -X GET 'http://localhost:5984/map-reduce/_design/simple/ \
+  _view/all_database_types?group=true'
+{"rows":[
+{"key":"column_store","value":4},
+{"key":"document_store","value":4},
+{"key":"key_value","value":4}
+]}
+          </pre>
+        </section>
+        <p class="green">
+          If you want to fire the view without reduce, use the parameter reduce=false
+      </article>
+
+      <article>
+        <h3>
+          Retrieving data with Map/Reduce
+        </h3>
+        <ul>
+          <li>built-in reduce functions: _sum, _count, _stats</li>
+          <li>_sum and _stats requires value of emit to be numeric</li>
+          <li>you can write reduce functions also by yourself</li>
+          <li>if the  result from reduce is more than one value you are doing it wrong</li>
+          <li>key of emit can be an array - then use group_level parameter to group (<a href="http://localhost:5984/_utils/database.html?map-reduce/_design/simple/_view/last_update">example</a>)</li>
+        </ul>
+        <p>See also:</p>
+        <ul>
+          <li><a href="http://guide.couchdb.org/draft/views.html">Definitive Guide: Finding Your Data with Views</a></li>
+          <li><a href="">Definitive Guide: View Cookbook for SQL Jockeys</a></li>
+        </ul>
+      </article>
+<!--
       <article>
         <h3>
           Styles
@@ -528,74 +859,7 @@ curl -X COPY http://localhost:5984/jug/third_doc -H 'destination:fifth_doc'
           Source: Eric Schmidt
         </div>
       </article>
-
-      <article>
-        <h3>
-          This slide has some code
-        </h3>
-        <section>
-        <pre>
-&lt;script type='text/javascript'&gt;
-  // Say hello world until the user starts questioning
-  // the meaningfulness of their existence.
-  function helloWorld(world) {
-    for (var i = 42; --i &gt;= 0;) {
-      alert('Hello ' + String(world));
-    }
-  }
-&lt;/script&gt;
-&lt;style&gt;
-  p { color: pink }
-  b { color: blue }
-  u { color: 'umber' }
-&lt;/style&gt;
-</pre>
-        </section>
-      </article>
-      
-      <article class='smaller'>
-        <h3>
-          This slide has some code (small font)
-        </h3>
-        <section>
-        <pre>
-&lt;script type='text/javascript'&gt;
-  // Say hello world until the user starts questioning
-  // the meaningfulness of their existence.
-  function helloWorld(world) {
-    for (var i = 42; --i &gt;= 0;) {
-      alert('Hello ' + String(world));
-    }
-  }
-&lt;/script&gt;
-&lt;style&gt;
-  p { color: pink }
-  b { color: blue }
-  u { color: 'umber' }
-&lt;/style&gt;
-</pre>
-        </section>
-      </article>
-      
-      <article>
-        <q>
-          The best way to predict the future is to invent it.
-        </q>
-        <div class='author'>
-          Alan Kay
-        </div>
-      </article>
-      
-      <article class='smaller'>
-        <q>
-          A distributed system is one in which the failure of a computer 
-          you didn’t even know existed can render your own computer unusable.
-        </q>
-        <div class='author'>
-          Leslie Lamport
-        </div>
-      </article>
-      
+     
       <article class='nobackground'>
         <h3>
           A slide with an embed + title
@@ -608,13 +872,7 @@ curl -X COPY http://localhost:5984/jug/third_doc -H 'destination:fifth_doc'
         <iframe src='http://www.google.com/doodle4google/history.html'></iframe>
       </article>
 
-      <article class='fill'>
-        <h3>
-          Full-slide embed with (optional) slide title on top
-        </h3>
-        <iframe src='http://www.google.com/doodle4google/history.html'></iframe>
-      </article>
-      
+     
       <article>
         <h3>
           Thank you!
@@ -625,7 +883,7 @@ curl -X COPY http://localhost:5984/jug/third_doc -H 'destination:fifth_doc'
             <a href='http://www.google.com'>google.com</a>
         </ul>
       </article>
-
+-->
     </section>
 
   </body>
