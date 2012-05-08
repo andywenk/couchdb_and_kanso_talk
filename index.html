@@ -719,7 +719,7 @@ curl -X GET 'http://localhost:5984/map-reduce/_design/simple/ \
 ]}
           </pre>
         </section>
-        <p class="red">attention: start using single quotes for the URL - otherwise cURL will suck!</p>
+        <p class="red">attention: start using single quotes for the URL - otherwise cURL will fuck up!</p>
       </article>
 
       <article class="smaller">
@@ -792,8 +792,291 @@ curl -X GET 'http://localhost:5984/map-reduce/_design/simple/ \
         <p>See also:</p>
         <ul>
           <li><a href="http://guide.couchdb.org/draft/views.html">Definitive Guide: Finding Your Data with Views</a></li>
-          <li><a href="">Definitive Guide: View Cookbook for SQL Jockeys</a></li>
+          <li><a href="http://guide.couchdb.org/draft/cookbook.html">Definitive Guide: View Cookbook for SQL Jockeys</a></li>
+          <li><a href="http://shop.oreilly.com/product/0636920018247.do">Writing and Querying MapReduce Views in CouchDB</a></li>
         </ul>
+      </article>
+
+      <article>
+        <h3>
+          _show functions
+        </h3>
+        <p>&nbsp;</p>
+        <ul>
+          <li>retrieve data in other formats than JSON - e.g HTML, XML</li>
+          <li>nice feature to create small junks of formatted results</li>
+          <li>can only be used for one document</li>
+          <li>requires the id of a document</li>
+          <li>has to be placed in _design documents with key: "shows"</li>
+        </ul>
+      </article>
+
+      <article>
+        <h3>
+          _show functions
+        </h3>
+        <p>basic _design document structure</p>
+        <section>
+          <pre>
+{
+  "_id": "_design/simple",
+  "_rev": "13-49b3f4710c9b9ecb4bdd9ae8a8ed6c8b",
+  "views": {
+      "name": {
+          "map": "...",
+          "reduce": "..."
+      }
+  },
+  "shows": {
+      "name": "..."
+  },
+  "lists": {
+      "name": "..."
+  },
+  "language": "javascript"
+}
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          _show functions - example with result
+        </h3>
+        <section>
+          <pre>
+"shows": {
+  "html": "function(doc, req){log(doc); log(req); if(doc) {return \
+    '&lt;table&gt;&lt;tr&gt;&lt;td&gt;id:&lt;/td&gt;&lt;td&gt;' +doc._id+ \
+    '&lt;/td&gt;&lt;tr&gt;&lt;tr&gt;&lt;td&gt;type:&lt;/td&gt;&lt;td&gt;'+doc.type+ \
+    '&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;tr&gt;&lt;td&gt;name:&lt;/td&gt;&lt;td&gt;'+doc.name+ \
+    '&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;last_update:&lt;/td&gt;&lt;td&gt;'+Date(doc.last_update)+ 
+    '&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;'} else {return '&lt;h4&gt;Für die angegebene ID' +req.id+ \
+    ' gibt es kein Ergebnis&lt;/h4&gt;'}}"
+}
+          </pre>
+        </section>
+        <img src="images/show-result.png" />
+        <section>
+          <pre>
+curl -X GET http://localhost:5984/map-reduce/_design/simple/_show/ \
+  html/f165fc62ed5d14ca84128de1d6034a36
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;id:&lt;/td&gt;&lt;td&gt;f165fc62ed5d14ca84128de1d6034a36&lt;/td&gt;&lt;tr&gt;&lt;tr&gt;&lt;td&gt;type:&lt;/td&gt;&lt;td&gt;document_store&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;tr&gt;&lt;td&gt;name:&lt;/td&gt;&lt;td&gt;CouchDB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;last_update:&lt;/td&gt;&lt;td&gt;Tue May 08 2012 21:38:03 GMT+0200 (CEST)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+          </pre>
+        </section>
+      </article>
+
+      <article>
+        <h3>
+          _list functions
+        </h3>
+        <ul>
+          <li>create output for many documents</li>
+          <li>is based on the result of a view</li>
+          <li>can be formatted in many different ways</li>
+        </ul>
+        <p>&nbsp;</p>
+        <p>basic methods</p>
+        <table>
+          <tr>
+            <td>start()</td>
+            <td>set options for output - e.g a Header</td>
+          </tr>
+          <tr>
+            <td>getRow()</td>
+            <td>content of one document</td>
+          </tr>
+          <tr>
+            <td>send()</td>
+            <td>generate the output</td>
+          </tr>
+        </table>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          _list functions - example
+        </h3>
+        <section>
+          <pre>
+  "lists": {
+    "html": "function(head, req){ \
+      var row, table = ''; \
+      start({'headers':{'content-type':'text/html'}}); \
+      table += \
+        '&lt;table width=\"300\"&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;type:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;name:&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;'; \
+      while(row=getRow()) { \
+        table += '&lt;tr&gt;&lt;td&gt;' +row.key+ '&lt;/td&gt;&lt;td&gt;' +row.value+ '&lt;/td&gt;&lt;/tr&gt;'; \
+      }; \
+      send(table + '&lt;/table&gt;'); \
+    }"
+  },
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          _list functions - example - results
+        </h3>
+        <p>&nbsp;</p>
+        <img src="images/list-result-all.png" />
+        <img src="images/list-result-document-store.png" />
+      </article>
+
+      <article class="smaller">
+        <h3>
+          _list functions - example - even more results
+        </h3>
+        <p>&nbsp;</p>
+        <img src="images/list-result-group.png" />
+        <img src="images/list-result-last_update_all.png" />
+        <img src="images/list-result-last_update.png" />
+      </article>
+
+      <article class="">
+        <h3>
+          URL-Rewriting
+        </h3>
+        <ul>
+          <li>rewrite request to another API-URL</li>
+          <li>make nicer and shorter URLs</li>
+          <li>is also placed in _design document with key: "rewrites"</li>
+          <li>super awesome in combination with Virtual Hosts in CouchDB</li>
+        </ul>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          URL-Rewriting - in the _design document
+        </h3>
+        <section>
+          <pre>       
+"rewrites": [
+  {
+    "from": "/all",
+    "to": "_list/html/all_database_types",
+    "method": "GET",
+    "query": {
+       "reduce": "false"
+    }
+  },
+  {
+    "from": "/document_store",
+    "to": "_list/html/all_database_types",
+    "method": "GET",
+    "query": {
+       "reduce": "false",
+       "key": "document_store"
+    }
+  },
+  ...
+],
+          </pre>
+        </section>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          URL-Rewriting - in the _design document
+        </h3>
+        <p>Results:</p>
+        <a href="http://localhost:5984/map-reduce/_design/simple/_rewrite/all">http://localhost:5984/map-reduce/_design/simple/_rewrite/all</a><br />
+        <a href="http://localhost:5984/map-reduce/_design/simple/_rewrite/document_store">http://localhost:5984/map-reduce/_design/simple/_rewrite/document_store</a><br />
+        <a href="http://localhost:5984/map-reduce/_design/simple/_rewrite/document_store">http://localhost:5984/map-reduce/_design/simple/_rewrite/document_store</a><br />
+        <a href="http://localhost:5984/map-reduce/_design/simple/_rewrite/document_store_grouped">http://localhost:5984/map-reduce/_design/simple/_rewrite/document_store_grouped</a><br />
+        <a href="http://localhost:5984/map-reduce/_design/simple/_rewrite/last_update">http://localhost:5984/map-reduce/_design/simple/_rewrite/last_update</a><br />
+        <a href="http://localhost:5984/map-reduce/_design/simple/_rewrite/last_update_level_2">http://localhost:5984/map-reduce/_design/simple/_rewrite/last_update_level_2</a>
+        
+        <p class="green">Q.E.D.</p>
+      </article>
+
+      <article class="">
+        <h3>
+          Virtual-Hosts
+        </h3>
+        <ul>
+          <li>possibility to serve content from CouchDB with nice URLs</li> 
+          <li>like VirtualHosts in a webserver</li>
+          <li>this means CouchDB is a all in one solution</li>
+          <li>is configured in local.ini</li>
+        </ul>
+      </article>
+
+      <article>
+       <h3>
+          Virtual-Hosts
+        </h3>
+        <p>Find the configuration files:</p>
+        <section>
+          <pre>
+couchdb -c
+/usr/local/etc/couchdb/default.ini
+/usr/local/etc/couchdb/local.ini
+          </pre>
+        </section>
+        search for:
+        <section>
+          <pre>
+[vhosts]
+;example.com = /database/
+          </pre>
+        </section>
+      </article>
+
+      <article>
+        <h3>
+          Virtual-Hosts - settings
+        </h3>
+        <section>
+          <pre>
+[vhosts]
+;example.com = /database/
+map-reduce:5984 = /map-reduce/
+          </pre>
+        </section>
+        <p>restart CouchDB</p>
+        <section>
+          <pre>
+curl -X GET http://map-reduce:5984/
+{"db_name":"map-reduce","doc_count":13,"doc_del_count":0,
+ "update_seq":69,"purge_seq":0,"compact_running":false,
+ "disk_size":282728,"data_size":5544, 
+ "instance_start_time":"1336516869140172",
+ "disk_format_version":6,"committed_update_seq":69}
+          </pre>
+        </section>
+        <p class="red">don't forget to set '127.0.0.1 map-reduce' in /etc/hosts!</p>
+      </article>
+
+      <article>
+        <h3>
+          Virtual-Hosts and URL Rewriting combined
+        </h3>
+        <p>change local.ini to:</p>
+        <section>
+          <pre>
+[vhosts]
+;example.com = /database/
+map-reduce:5984 = /map-reduce/
+map-reduce:5984/stats/ = /map-reduce/_design/simple/_rewrite/
+          </pre>
+        </section>
+        <p>now fire <a href="http://map-reduce:5984/stats/all">http://map-reduce:5984/stats/all</a><p>
+
+        <h1 class="red">and</h1>
+      </article>
+
+      <article>
+        <h2 class="red">
+          RELAX!
+        </h2>
+      </article>
+
+      <article>
+        <h2>
+          00:15 min break ... 
+        </h2>
       </article>
 <!--
       <article>
