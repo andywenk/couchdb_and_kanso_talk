@@ -18,7 +18,5 @@ part II - Building a CouchApp with kan.so
 
 The slides are found in kanso.html
 
-(ups - the file is missing - I will push it later ... sry)
-
 Inside the folder kanso-app you will find the whole app. I strongly recommend,
-that you follow the awesome introduction on http://kan.so 
+that you follow the awesome introduction on http://kan.so
