@@ -528,7 +528,7 @@ curl -X PUT http://localhost:5984/jug/first_doc -d '{}'
         <p>Updating a document with PUT</p>
         <section>
           <pre>
-curl -X GET http://localhost:5984/jug/first_doc 
+curl -X PUT http://localhost:5984/jug/first_doc 
 &nbsp;-d '{"_rev":"1-967a00dff5e02add41819138abb3284d",
 &nbsp;"some-content":"Hey how are you dude?"}'
 {"ok":true,"id":"first_doc","rev":"2-65ef50076c98c6817fb3ca97c87d8b66"}
