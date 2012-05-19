@@ -486,22 +486,17 @@ curl -X POST http://localhost:5984/jug/ -H "Content-Type: application/json" -d '
         <div class="text indent10">
           (revision number)-(md5 hash of the document content)
         </div>
+        <p>Annotation</p>
+        <div class="text indent10">
+          # using POST to create a document requires the Content-Type header<br />
+          # the document _id will be created by CouchDB
+        </div>
       </article>
 
       <article class='smaller'>
         <h3>
           Querying CouchDB with http - document level
         </h3>
-        <p>All documents</p>
-        <section>
-          <pre>
-curl -X GET http://localhost:5984/jug/_all_docs
-{"total_rows":1,"offset":0,"rows":[
-{"id":"03cab906fa68e852be833ebb17000ff8","key":"03cab906fa68e852be833ebb17000ff8","value":{"rev":"1-967a00dff5e02add41819138abb3284d"}}
-]}
-          </pre>
-        </section>
-
         <p>Creating a document with PUT with usage of a uuid ...</p>
         <section>
           <pre>
@@ -518,6 +513,10 @@ curl -X PUT http://localhost:5984/jug/first_doc -d '{}'
 {"ok":true,"id":"first_doc","rev":"1-967a00dff5e02add41819138abb3284d"}
           </pre>
         </section>
+        <p>Annotation</p>
+        <div class="text indent10">
+          # using PUT to create a document requires to provide the document _id
+        </div>
       </article>
 
       <article class="smaller">
@@ -529,8 +528,8 @@ curl -X PUT http://localhost:5984/jug/first_doc -d '{}'
         <section>
           <pre>
 curl -X PUT http://localhost:5984/jug/first_doc 
-&nbsp;-d '{"_rev":"1-967a00dff5e02add41819138abb3284d",
-&nbsp;"some-content":"Hey how are you dude?"}'
+-d '{"_rev":"1-967a00dff5e02add41819138abb3284d",
+     "some-content":"Hey how are you dude?"}'
 {"ok":true,"id":"first_doc","rev":"2-65ef50076c98c6817fb3ca97c87d8b66"}
           </pre>
         </section>
@@ -540,6 +539,32 @@ curl -X PUT http://localhost:5984/jug/first_doc
 -H "if-match:1-967a00dff5e02add41819138abb3284d"
           </pre>
         </section>
+        <p>Annotation</p>
+        <div class="text indent10">
+          # when updating a document, the most actual _rev of the document has to be provided
+        </div>
+      </article>
+
+      <article class="smaller">
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+      
+        <p>Difference between <b>POST</b> and <b>PUT</b></p>
+
+        <ul>
+          <li><b>both</b> methods are creating new documents</li>
+          <li>the difference is the meaning of the request-uri</li>
+          <li>"the URI in a POST request identifies the resource that will handle the enclosed entity" means: CouchDB (the resource) creates the document all by itself</li> 
+          <li>"the URI in a PUT request identifies the entity enclosed with the request" means: CouchDB creates a document with the given document id</li>
+          <li>both methods create the document with the given request-body</li>
+          <li>modifying a document is only possible with PUT</li>
+        </ul>
+        <p>&nbsp;</p>
+        <p>Annotation</p>
+        <div class="text indent10">
+          read <a href="http://pretty-rfc.herokuapp.com/RFC2616#POST">POST</a> and the following <a href="http://pretty-rfc.herokuapp.com/RFC2616#PUT">PUT</a> paragraph from <a href="http://pretty-rfc.herokuapp.com/RFC2616">RFC2616</a>
+        </div>
       </article>
 
       <article class="smaller">
@@ -644,6 +669,21 @@ curl -X COPY http://localhost:5984/jug/third_doc -H 'destination:fifth_doc'
         </section>
         <p>Copying third_doc to fourth_doc is overwriting not merging!</p>
         <p>Copying third_doc to fifth_doc will create the fith_doc newly</p>
+      </article>
+
+ <article class='smaller'>
+        <h3>
+          Querying CouchDB with http - document level
+        </h3>
+        <p>Get all documents</p>
+        <section>
+          <pre>
+curl -X GET http://localhost:5984/jug/_all_docs
+{"total_rows":1,"offset":0,"rows":[
+{"id":"03cab906fa68e852be833ebb17000ff8","key":"03cab906fa68e852be833ebb17000ff8","value":{"rev":"1-967a00dff5e02add41819138abb3284d"}}
+]}
+          </pre>
+        </section>
       </article>
       
       <article>
